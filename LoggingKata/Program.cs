@@ -35,12 +35,38 @@ namespace LoggingKata
 
             // TODO: Create two `ITrackable` variables with initial values of `null`. These will be used to store your two taco bells that are the farthest from each other.
             // Create a `double` variable to store the distance
-
+            ITrackable tacoOne = null;
+            ITrackable tacoTwo = null;
+            double finalDistance = 0;
+            double testDistance = 0;
             // Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
+            var geoOne = new GeoCoordinate();
+            var geoTwo = new GeoCoordinate();
 
             //HINT NESTED LOOPS SECTION---------------------
             // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
+            for (int i = 0; i < locations.Length; i++)
+            {
+                geoOne.Latitude = locations[i].Location.Latitude;
+                geoOne.Longitude = locations[i].Location.Longitude;
+                for (int k = 0; k < locations.Length; k++)
+                {
+                    geoTwo.Latitude = locations[k].Location.Latitude;
+                    geoTwo.Longitude = locations[k].Location.Longitude;
 
+                    testDistance = geoOne.GetDistanceTo(geoTwo);
+                    if (testDistance > finalDistance)
+                    {
+                        finalDistance = testDistance;
+                        tacoOne = locations[i];
+                        tacoTwo = locations[k];
+
+                    }
+                    
+                }
+                
+
+            }
             // Create a new corA Coordinate with your locA's lat and long
 
             // Now, do another loop on the locations with the scope of your first loop, so you can grab the "destination" location (perhaps: `locB`)
@@ -52,8 +78,21 @@ namespace LoggingKata
 
             // Once you've looped through everything, you've found the two Taco Bells farthest away from each other.
 
+            Console.WriteLine($"The two Taco Bells that are the furthest from each other are: {tacoOne.Name} and {tacoTwo.Name}.");
+            Console.WriteLine($"The distance between the two Taco Bells is {ConvertMetersToMiles(finalDistance)} miles.");
+
 
             
+
+
+
         }
+        public static double ConvertMetersToMiles(double meters)
+        {
+           
+            return (meters / 1609.344);
+            
+        }
+
     }
 }
